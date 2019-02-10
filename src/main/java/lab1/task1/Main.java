@@ -4,12 +4,10 @@ import java.io.*;
 
 public class Main {
     private static final int BUFFER_SIZE = 1024;
-    private static final String INPUT = "input.txt";
-    private static final String OUTPUT = "output.txt";
 
     public static void main(String[] args) {
-        File input = new File(INPUT);
-        File output = new File(OUTPUT);
+        File input = new File(args[0]);
+        File output = new File(args[1]);
         if (!input.exists()) {
             try {
                 boolean isCreated = input.createNewFile();
