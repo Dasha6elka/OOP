@@ -8,17 +8,16 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        int SIZE = 3;
+        final int size = 3;
         Pair<float[][], float[][]> matrices = new ImmutablePair<>(
-            Matrix.toMatrix(new File(args[0]), SIZE),
-            Matrix.toMatrix(new File(args[1]), SIZE)
+            Matrix.toMatrix(new File(args[0]), size),
+            Matrix.toMatrix(new File(args[1]), size)
         );
         float[][] matrix;
-        matrix = Multiplication.matrixMultiplication(matrices.getLeft(), matrices.getRight(), SIZE);
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(matrix[i][j]);
-                System.out.print(" ");
+        matrix = Multiplication.matrixMultiplication(matrices, size);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.printf("%.3f ", matrix[i][j]);
             }
             System.out.println();
         }
