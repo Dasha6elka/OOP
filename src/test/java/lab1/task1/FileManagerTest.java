@@ -17,12 +17,6 @@ public class FileManagerTest {
         file.delete();
     }
 
-    @After
-    public void tearDown() {
-        final File file = new File("test.txt");
-        file.delete();
-    }
-
     @Test
     public void testFileCreates() throws IOException {
         final File file = new File("test.txt");

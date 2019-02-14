@@ -1,6 +1,7 @@
 package lab1.task2;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,6 +26,7 @@ public class BinaryTest {
             {"100", 4},
             {"11110000", 240},
             {"00111011", 59},
+            {"1111111111111111111111111111111", 2147483647}
         });
     }
 

@@ -1,6 +1,7 @@
 
 input*.txt
 output*.txt
+text.txt
 target/
 
 # Created by https://www.gitignore.io/api/java,macos,linux,windows,intellij+all
@@ -184,3 +185,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/java,macos,linux,windows,intellij+all
+test.txt

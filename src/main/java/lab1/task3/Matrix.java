@@ -8,17 +8,17 @@ class Matrix {
     private Matrix() {
     }
 
-    static float[][] toMatrix(final File file, final int size) throws IOException {
+    static float[][] toMatrix(final File file, final int SIZE_MATRIX) throws IOException {
         InputStream input = new FileInputStream(file);
         float[][] matrix;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(input))) {
             String line;
             String[] lineArr;
-            matrix = new float[size][size];
+            matrix = new float[SIZE_MATRIX][SIZE_MATRIX];
             int i = 0;
             int j = 0;
             while ((line = br.readLine()) != null) {
-                lineArr = line.split(" ");
+                lineArr = line.split("\t");
                 for (String num : lineArr) {
                     if (!NumberUtils.isCreatable(num)) {
                         break;

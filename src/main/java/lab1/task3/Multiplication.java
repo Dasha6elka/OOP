@@ -6,18 +6,18 @@ class Multiplication {
     private Multiplication() {
     }
 
-    static float[][] matrixMultiplication(final Pair<float[][], float[][]> matrices, final int size) {
-        float[][] matrix = new float[size][size];
+    static float[][] matrixMultiplication(final Pair<float[][], float[][]> sourseMatrix, final int SIZE_MATRIX) {
+        float[][] finalMatrix = new float[SIZE_MATRIX][SIZE_MATRIX];
         float sum = 0;
-        for (int c = 0; c < size; c++) {
-            for (int d = 0; d < size; d++) {
-                for (int k = 0; k < size; k++) {
-                    sum = (sum + matrices.getLeft()[c][k] * matrices.getRight()[k][d]);
+        for (int c = 0; c < SIZE_MATRIX; c++) {
+            for (int d = 0; d < SIZE_MATRIX; d++) {
+                for (int k = 0; k < SIZE_MATRIX; k++) {
+                    sum = (sum + sourseMatrix.getLeft()[c][k] * sourseMatrix.getRight()[k][d]);
                 }
-                matrix[c][d] = sum;
+                finalMatrix[c][d] = sum;
                 sum = 0;
             }
         }
-        return matrix;
+        return finalMatrix;
     }
 }
