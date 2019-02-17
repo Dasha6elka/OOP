@@ -1,5 +1,6 @@
 package lab1.task1;
 
+import io.FileManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class ApplicationTest {
         FileManager input = new FileManager("input.txt");
         FileManager output = new FileManager("output.txt");
         input.write("Hello, World!");
-        application.copyfile(input.create(), output.create());
+        application.copyfile(input.getFileInstance(), output.getFileInstance());
         Assert.assertEquals(output.read().strip(), "Hello, World!");
     }
 }

@@ -1,4 +1,4 @@
-package lab1.task1;
+package io;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,30 +8,30 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
-class FileManager {
+public class FileManager {
     private final File file;
 
-    FileManager(String pathToFile) {
+    public FileManager(String pathToFile) {
         this.file = new File(pathToFile);
     }
 
-    File create() throws IOException {
+    public File getFileInstance() throws IOException {
         if (!file.exists()) {
             boolean isCreated = file.createNewFile();
             if (!isCreated) {
-                throw new IOException("Cannot create input file!");
+                throw new IOException("Cannot getFileInstance input file!");
             }
         }
         return file;
     }
 
-    void write(String string) throws IOException {
+    public void write(String string) throws IOException {
         List<String> lines = Collections.singletonList(string);
         Path path = Path.of(file.getAbsolutePath());
         Files.write(path, lines, Charset.forName("UTF-8"));
     }
 
-    String read() throws IOException {
+    public String read() throws IOException {
         Path path = Path.of(file.getAbsolutePath());
         return Files.readString(path);
     }

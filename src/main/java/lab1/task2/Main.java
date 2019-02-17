@@ -2,17 +2,19 @@ package lab1.task2;
 
 import java.io.IOException;
 
-public class Main {
-    public static void main(String args[]){
-        if (args.length == 0) {
-            System.err.println("No number in arguments");
-            return;
+class Main {
+    public static void main(String[] args) {
+        try {
+            if (args.length == 0) {
+                throw new IllegalArgumentException("No number in arguments");
+            }
+            if (!Binary.verify(args[0])) {
+                throw new IOException("Number not binary!");
+            }
+            var decimal = Binary.bin2dec(args[0]);
+            System.out.println(decimal);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        if (!Binary.verify(args[0])) {
-            System.err.println("Number not binary!");
-            return;
-        }
-        var decimal = Binary.bin2dec(args[0]);
-        System.out.println( decimal);
     }
 }

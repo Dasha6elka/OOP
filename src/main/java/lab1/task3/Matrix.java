@@ -21,7 +21,7 @@ class Matrix {
                 lineArr = line.split("\t");
                 for (String num : lineArr) {
                     if (!NumberUtils.isCreatable(num)) {
-                        break;
+                        throw new IOException("Cannot read matrix!");
                     }
                     matrix[i][j] = Float.parseFloat(num);
                     j++;

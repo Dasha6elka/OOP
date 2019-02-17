@@ -9,8 +9,7 @@ class Binary {
         int len = binary.length();
 
         if (len > 31) {
-            System.out.println("Maximum length exceeded");
-            return len;
+            throw new RuntimeException("Maximum length exceeded");
         }
         for (int i = 0; i < len; i++) {
             result += Math.pow(2, len - 1 - i) * (binary.charAt(i) == '1' ? 1 : 0);

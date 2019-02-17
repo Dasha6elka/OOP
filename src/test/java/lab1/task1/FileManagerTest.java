@@ -1,14 +1,12 @@
 package lab1.task1;
 
-import org.junit.After;
+import io.FileManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class FileManagerTest {
     @Before
@@ -23,14 +21,14 @@ public class FileManagerTest {
         Assert.assertFalse(file.exists());
         FileManager manager = new FileManager("test.txt");
         Assert.assertFalse(file.exists());
-        manager.create();
+        manager.getFileInstance();
         Assert.assertTrue(file.exists());
     }
 
     @Test
     public void testWriteReadWorks() throws IOException {
         FileManager manager = new FileManager("test.txt");
-        manager.create();
+        manager.getFileInstance();
         manager.write("Hello, World!");
         String actual = manager.read();
         Assert.assertEquals("Hello, World!", actual.strip());
