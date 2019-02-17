@@ -4,7 +4,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +11,9 @@ public class Main {
             final int SIZE_MATRIX = 3;
             if (args.length == 0) {
                 throw new IllegalArgumentException("No arguments!");
+            }
+            if (args.length != 2) {
+                throw new IllegalArgumentException("The number of arguments does not match!");
             }
             Pair<float[][], float[][]> sourceMatrix = new ImmutablePair<>(
                 Matrix.toMatrix(new File(args[0]), SIZE_MATRIX),
