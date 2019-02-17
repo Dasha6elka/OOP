@@ -1,4 +1,4 @@
-package lab1.task1;
+package lab1.copyfile;
 
 import io.FileManager;
 

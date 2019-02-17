@@ -1,7 +1,6 @@
-package lab1.task2;
+package lab1.bin2dec;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

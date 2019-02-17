@@ -1,4 +1,4 @@
-package lab1.task2;
+package lab1.bin2dec;
 
 class Binary {
     private Binary() {

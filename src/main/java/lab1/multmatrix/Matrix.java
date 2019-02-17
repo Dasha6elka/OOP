@@ -1,4 +1,4 @@
-package lab1.task3;
+package lab1.multmatrix;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
