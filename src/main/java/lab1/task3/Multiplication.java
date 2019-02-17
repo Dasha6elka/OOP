@@ -12,7 +12,7 @@ class Multiplication {
         for (int c = 0; c < SIZE_MATRIX; c++) {
             for (int d = 0; d < SIZE_MATRIX; d++) {
                 for (int k = 0; k < SIZE_MATRIX; k++) {
-                    sum = (sum + sourceMatrix.getLeft()[c][k] * sourceMatrix.getRight()[k][d]);
+                    sum = (sum + (sourceMatrix.getLeft()[c][k] * sourceMatrix.getRight()[k][d]));
                 }
                 finalMatrix[c][d] = sum;
                 sum = 0;
