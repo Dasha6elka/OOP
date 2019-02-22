@@ -7,17 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static String[] read(Scanner in) throws IOException {
-        // TODO: если одна строка, то не вылетает в ошибку сразу
+    static String[] read(Scanner in) throws IOException {
         String input = in.nextLine();
         if (input == null) {
             throw new IOException("Nothing was entered into the console.");
         }
-        String[] arrayOfNumber = input.split(" ");
-        return arrayOfNumber;
+        return input.split(" ");
     }
 
-    public static List<Float> processing(String[] arrayOfNumber) {
+    static List<Float> processing(String[] arrayOfNumber) {
         List<Float> vector = new ArrayList<>();
         for (String st : arrayOfNumber) {
             vector.add(Float.valueOf(st));
@@ -26,12 +24,12 @@ public class Main {
         float max = vector.get(0);
         float min = vector.get(0);
 
-        for (int i = 0; i < vector.size(); i++) {
-            if (vector.get(i) > max) {
-                max = vector.get(i);
+        for (Float aFloat : vector) {
+            if (aFloat > max) {
+                max = aFloat;
             }
-            if (vector.get(i) < min) {
-                min = vector.get(i);
+            if (aFloat < min) {
+                min = aFloat;
             }
         }
 
@@ -45,17 +43,18 @@ public class Main {
         return vector;
     }
 
-    public static void outputOfTheResult(List<Float> vector) {
+    static ArrayList<String> outputOfTheResult(List<Float> vector) {
         DecimalFormat df = new DecimalFormat("#.###");
+        ArrayList<String> out = new ArrayList<>();
 
-        for (int i = 0; i < vector.size(); i++) {
-            float vec = vector.get(i);
+        for (float vec : vector) {
             if (vec == -0) {
                 vec = 0;
             }
-            System.out.print(df.format(vec));
-            System.out.print(" ");
+            String inFormat = df.format(vec);
+            out.add(inFormat);
         }
+        return out;
     }
 
     public static void main(String[] args) {
@@ -64,7 +63,11 @@ public class Main {
             System.out.println("Enter an array of floating-point numbers, separated by spaces:");
             String[] arrayOfNumber = Main.read(in);
             List<Float> vector = Main.processing(arrayOfNumber);
-            Main.outputOfTheResult(vector);
+            ArrayList<String> vectorInFormat = Main.outputOfTheResult(vector);
+            for (var vec : vectorInFormat) {
+                System.out.print(vec);
+                System.out.print(" ");
+            }
         } catch (Exception e) {
             System.err.println(e);
         }
