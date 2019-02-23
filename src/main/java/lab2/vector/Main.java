@@ -3,6 +3,7 @@ package lab2.vector;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,7 +64,8 @@ public class Main {
             System.out.println("Enter an array of floating-point numbers, separated by spaces:");
             String[] arrayOfNumber = Main.read(in);
             List<Float> vector = Main.processing(arrayOfNumber);
-            ArrayList<String> vectorInFormat = Main.outputOfTheResult(vector);
+            Collections.sort(vector);
+            List<String> vectorInFormat = Main.outputOfTheResult(vector);
             for (var vec : vectorInFormat) {
                 System.out.print(vec);
                 System.out.print(" ");
