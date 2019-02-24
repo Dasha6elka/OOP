@@ -2,6 +2,7 @@
 input*.txt
 output*.txt
 text.txt
+dictionary.txt
 target/
 
 # Created by https://www.gitignore.io/api/java,macos,linux,windows,intellij+all
