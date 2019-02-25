@@ -7,7 +7,7 @@ import java.util.*;
 
 
 public class Main {
-    private static File createFile(String path) throws IOException {
+    public static File createFile(String path) throws IOException {
         File file = new File(path);
         if (!file.exists()) {
             boolean isCreate =  file.createNewFile();
@@ -18,7 +18,7 @@ public class Main {
         return file;
     }
     
-    private static Map<String, List<String>> initializationDict(File file) {
+    public static Map<String, List<String>> initializationDict(File file) {
         Map<String, List<String>> dictionary = new LinkedHashMap<>();
         try (Scanner s = new Scanner(file)) {
             while (s.hasNext()) {
@@ -34,10 +34,7 @@ public class Main {
         return dictionary;
     }
 
-    private static void unknownWord(String in, Map<String, List<String>> dictionary) {
-        System.out.println("Неизвестое слово \"" + in + "\". Введите перевод или пустую строку для отказа.");
-        Scanner inputNewWord = new Scanner(System.in);
-        String newWord = inputNewWord.nextLine();
+    public static Map<String, List<String>> unknownWord(String in, Map<String, List<String>> dictionary, String newWord) {
         if (!newWord.isEmpty()) {
             dictionary.containsKey(in);
             dictionary.put(in, new LinkedList<>());
@@ -46,9 +43,10 @@ public class Main {
         } else {
             System.out.println("Слово \"" + in + "\" проигнорировано.");
         }
+        return dictionary;
     }
 
-    private static void saveDict(File file, Map<String, List<String>> dictionary) {
+    public static void saveDict(File file, Map<String, List<String>> dictionary) {
         file.delete();
         try (FileWriter writer = new FileWriter(file)) {
             dictionary.forEach((key, strings) -> {
@@ -93,7 +91,10 @@ public class Main {
             } else if (dictionary.keySet().contains(in)) {
                 System.out.println(dictionary.get(in));
             } else {
-                Main.unknownWord(in, dictionary);
+                System.out.println("Неизвестое слово \"" + in + "\". Введите перевод или пустую строку для отказа.");
+                Scanner inputNewWord = new Scanner(System.in);
+                String newWord = inputNewWord.nextLine();
+                Main.unknownWord(in, dictionary, newWord);
             }
         }
     }
