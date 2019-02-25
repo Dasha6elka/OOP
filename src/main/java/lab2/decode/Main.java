@@ -1,4 +1,4 @@
-package lab2.string;
+package lab2.decode;
 
 import java.util.Scanner;
 

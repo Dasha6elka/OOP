@@ -1,9 +1,7 @@
-package lab2.string;
+package lab2.decode;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class MainTest {
 
