@@ -3,6 +3,7 @@ input*.txt
 output*.txt
 text.txt
 dictionary.txt
+uncensored.txt
 target/
 
 # Created by https://www.gitignore.io/api/java,macos,linux,windows,intellij+all
