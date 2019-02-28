@@ -89,7 +89,13 @@ public class Main {
                     System.out.println("В словарь не было ничего добавлено нового");
                 }
             } else if (dictionary.keySet().contains(in)) {
-                System.out.println(dictionary.get(in));
+                var values = dictionary.get(in);
+                int size = values.size();
+                for (int i = 0; i < size; i++) {
+                    System.out.print(values.get(i));
+                    System.out.print(" ");
+                }
+                System.out.println();
             } else {
                 System.out.println("Неизвестое слово \"" + in + "\". Введите перевод или пустую строку для отказа.");
                 Scanner inputNewWord = new Scanner(System.in);

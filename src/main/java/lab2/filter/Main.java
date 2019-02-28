@@ -18,13 +18,11 @@ public class Main {
 
     public static Set<String> readConsole(Scanner console) {
         Set<String> mesageWords = new HashSet<>();
-        String current;
-        console.useDelimiter("\n\t\\s,.?!;:+-=*/%");
-        console.useDelimiter("()");
-        console.useDelimiter("^");
+//        console.useDelimiter("\n\t\\s,.?!;:+-=*/%");
+//        console.useDelimiter("()");
+//        console.useDelimiter("^");
         while (console.hasNextLine()) {
-            current = console.nextLine();
-            mesageWords.add(current);
+            mesageWords.add(console.nextLine());
         }
         return mesageWords;
     }

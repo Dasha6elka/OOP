@@ -2,10 +2,7 @@ package lab2.vector;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     static String[] read(Scanner in) throws IOException {
@@ -16,23 +13,18 @@ public class Main {
         return input.split(" ");
     }
 
-    static List<Float> processing(String[] arrayOfNumber) {
-        List<Float> vector = new ArrayList<>();
+    static Vector<Float> processing(String[] arrayOfNumber) {
+        Vector<Float> vector = new Vector<>();
         for (String st : arrayOfNumber) {
             vector.add(Float.valueOf(st));
         }
+        
+        Collections.sort(vector);
+        int size = vector.size();
 
-        float max = vector.get(0);
         float min = vector.get(0);
-
-        for (Float aFloat : vector) {
-            if (aFloat > max) {
-                max = aFloat;
-            }
-            if (aFloat < min) {
-                min = aFloat;
-            }
-        }
+        float max = vector.get(size - 1);
+        
 
         float multiplier = max / min;
 
@@ -44,9 +36,9 @@ public class Main {
         return vector;
     }
 
-    static ArrayList<String> outputOfTheResult(List<Float> vector) {
+    static Vector<String> formatConversion(Vector<Float> vector) {
         DecimalFormat df = new DecimalFormat("#.###");
-        ArrayList<String> out = new ArrayList<>();
+        Vector<String> out = new Vector<>();
 
         for (float vec : vector) {
             if (vec == -0) {
@@ -58,18 +50,28 @@ public class Main {
         return out;
     }
 
+    static void outputOfTheResult(Vector<String> vectorInFormat) {
+        int size = vectorInFormat.size();
+        int i = 1;
+        for (var vec : vectorInFormat) {
+            System.out.print(vec);
+            if (i == size) {
+                continue;
+            }
+            System.out.print(" ");
+            i++;
+        }
+    }
+
     public static void main(String[] args) {
         try {
             Scanner in = new Scanner(System.in);
             System.out.println("Enter an array of floating-point numbers, separated by spaces:");
             String[] arrayOfNumber = Main.read(in);
-            List<Float> vector = Main.processing(arrayOfNumber);
+            Vector<Float> vector = Main.processing(arrayOfNumber);
             Collections.sort(vector);
-            List<String> vectorInFormat = Main.outputOfTheResult(vector);
-            for (var vec : vectorInFormat) {
-                System.out.print(vec);
-                System.out.print(" ");
-            }
+            Vector<String> vectorInFormat = Main.formatConversion(vector);
+            Main.outputOfTheResult(vectorInFormat);
         } catch (Exception e) {
             System.err.println(e);
         }
