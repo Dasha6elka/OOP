@@ -7,10 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static org.junit.Assert.*;
-
 public class MainTest {
-
     @Test
     public void testCreateFileWorks() throws IOException {
         File file = Main.createFile("test.txt");
@@ -29,11 +26,29 @@ public class MainTest {
     }
 
     @Test
+    public void testInitializationDdictWorks() throws IOException {
+        File file = Main.createFile("input4.txt");
+        Map<String, List<String>> dict = Main.initializationDict(file);
+        Map<String, List<String>> dict1 = new HashMap<>();
+        Map<String, List<String>> ddict = Main.initializedDdict(dict, dict1);
+        Map<String, List<String>> rightDict = new LinkedHashMap<>();
+        if (!rightDict.containsKey("cat"))
+            rightDict.put("cat", new LinkedList<>());
+        rightDict.get("cat").add("кот");
+        if (!rightDict.containsKey("кот"))
+            rightDict.put("кот", new LinkedList<>());
+        rightDict.get("кот").add("cat");
+        Assert.assertEquals(ddict, rightDict);
+    }
+
+    @Test
     public void testUnknownWordWorks() throws IOException {
         File file = Main.createFile("input2.txt");
         Map<String, List<String>> dict = Main.initializationDict(file);
-        Map<String, List<String>> dictionary = Main.unknownWord("room", dict, "комната");
-        Main.unknownWord("cat", dictionary, "кошка");
+        Map<String, List<String>> dict1 = new HashMap<>();
+        Map<String, List<String>> ddict = Main.initializedDdict(dict, dict1);
+        Map<String, List<String>> dictionary = Main.unknownWord("room", dict, ddict, "комната");
+        Main.unknownWord("cat", dictionary, ddict,"кошка");
 
         Map<String, List<String>> rightDict = new LinkedHashMap<>();
         if (!rightDict.containsKey("room"))
@@ -50,9 +65,10 @@ public class MainTest {
     public void testSaveDictWorks() throws IOException {
         File file = Main.createFile("input3.txt");
         Map<String, List<String>> dict = Main.initializationDict(file);
-        Map<String, List<String>> dictionary = Main.unknownWord("room", dict, "комната");
-        Main.unknownWord("cat", dictionary, "кошка");
-        Main.saveDict(file, dictionary);
+        Map<String, List<String>> dict1 = new HashMap<>();
+        Map<String, List<String>> ddict = Main.initializedDdict(dict, dict1);
+        Main.unknownWord("cat", dict, ddict, "кошка");
+        Main.saveDict(file, dict);
 
         Scanner scanner = new Scanner(file);
         String s1 = scanner.nextLine();

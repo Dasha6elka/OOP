@@ -5,27 +5,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-
 public class Main {
     public static File createFile(String path) throws IOException {
         File file = new File(path);
         if (!file.exists()) {
-            boolean isCreate =  file.createNewFile();
+            boolean isCreate = file.createNewFile();
             if (!isCreate) {
                 System.out.println("Файл не создан");
             }
         }
         return file;
     }
-    
+
     public static Map<String, List<String>> initializationDict(File file) {
         Map<String, List<String>> dictionary = new LinkedHashMap<>();
         try (Scanner s = new Scanner(file)) {
             while (s.hasNext()) {
                 String key = s.next();
+                String item = s.next();
                 if (!dictionary.containsKey(key))
                     dictionary.put(key, new LinkedList<>());
-                dictionary.get(key).add(s.next());
+                dictionary.get(key).add(item);
             }
             return dictionary;
         } catch (IOException e) {
@@ -34,12 +34,32 @@ public class Main {
         return dictionary;
     }
 
-    public static Map<String, List<String>> unknownWord(String in, Map<String, List<String>> dictionary, String newWord) {
+    public static Map<String, List<String>> initializedDdict(Map<String, List<String>> dictionary, Map<String, List<String>> ddictionary) {
+        dictionary.forEach((key, items) -> {
+            for (String item : items) {
+                if (!ddictionary.containsKey(key))
+                    ddictionary.put(key, new LinkedList<>());
+                if (!ddictionary.containsKey(item))
+                    ddictionary.put(item, new LinkedList<>());
+                ddictionary.get(key).add(item);
+                ddictionary.get(item).add(key);
+            }
+        });
+        return ddictionary;
+    }
+
+    public static Map<String, List<String>> unknownWord(String in, Map<String, List<String>> dictionary, Map<String, List<String>> ddictionary, String newWord) {
         if (!newWord.isEmpty()) {
-            dictionary.containsKey(in);
-            dictionary.put(in, new LinkedList<>());
+            if (!dictionary.containsKey(in))
+                dictionary.put(in, new LinkedList<>());
             dictionary.get(in).add(newWord);
-            System.out.println("Слово \""+ in + "\" сохранено в словаре как \"" + newWord + "\".");
+            if (!ddictionary.containsKey(in))
+                ddictionary.put(in, new LinkedList<>());
+            ddictionary.get(in).add(newWord);
+            if (!ddictionary.containsKey(newWord))
+                ddictionary.put(newWord, new LinkedList<>());
+            ddictionary.get(newWord).add(in);
+            System.out.println("Слово \"" + in + "\" сохранено в словаре как \"" + newWord + "\".");
         } else {
             System.out.println("Слово \"" + in + "\" проигнорировано.");
         }
@@ -68,11 +88,11 @@ public class Main {
         System.out.println("Изменения сохранены. До свидания.");
     }
 
-    private static void dialogueWithUser(File file, Map<String, List<String>> dictionary, int sizeStartingDict) {
+    private static void dialogueWithUser(File file, Map<String, List<String>> dictionary, Map<String, List<String>> ddictionary, int sizeStartingDict) {
         boolean exit = false;
         while (!exit) {
             Scanner input = new Scanner(System.in);
-            String in = input.nextLine();
+            String in = input.nextLine().toLowerCase();
             if (in.isEmpty()) {
                 System.out.println("Пусто. введите заново.");
             } else if (Objects.equals(in, "...")) {
@@ -88,19 +108,30 @@ public class Main {
                 } else {
                     System.out.println("В словарь не было ничего добавлено нового");
                 }
-            } else if (dictionary.keySet().contains(in)) {
-                var values = dictionary.get(in);
-                int size = values.size();
-                for (int i = 0; i < size; i++) {
-                    System.out.print(values.get(i));
-                    System.out.print(" ");
-                }
-                System.out.println();
             } else {
-                System.out.println("Неизвестое слово \"" + in + "\". Введите перевод или пустую строку для отказа.");
-                Scanner inputNewWord = new Scanner(System.in);
-                String newWord = inputNewWord.nextLine();
-                Main.unknownWord(in, dictionary, newWord);
+                var ref = new Object() {
+                    boolean isNew = false;
+                };
+                ddictionary.forEach((key, items) -> {
+                    if (key.toLowerCase().equals(in)) {
+                        var values = ddictionary.get(key);
+                        int size = values.size();
+                        for (int i = 0; i < size; i++) {
+                            System.out.print(values.get(i));
+                            if (i < size - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println();
+                        ref.isNew = true;
+                    }
+                });
+                if (!ref.isNew) {
+                    System.out.println("Неизвестое слово \"" + in + "\". Введите перевод или пустую строку для отказа.");
+                    Scanner inputNewWord = new Scanner(System.in);
+                    String newWord = inputNewWord.nextLine();
+                    Main.unknownWord(in, dictionary, ddictionary, newWord);
+                }
             }
         }
     }
@@ -109,8 +140,10 @@ public class Main {
         try {
             File file = Main.createFile(args[0]);
             Map<String, List<String>> dictionary = Main.initializationDict(file);
+            Map<String, List<String>> ddictionary = new HashMap<>();
+            Main.initializedDdict(dictionary, ddictionary);
             int sizeStartingDict = dictionary.size();
-            Main.dialogueWithUser(file, dictionary, sizeStartingDict);
+            Main.dialogueWithUser(file, dictionary, ddictionary, sizeStartingDict);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
