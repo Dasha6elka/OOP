@@ -12,28 +12,34 @@ public class Main {
             switch (command) {
                 case "Info":
                     System.out.print("engine state: ");
-                    if (car.engineState) {
+                    if (car.getEngineState()) {
                         System.out.println("on");
                     } else {
                         System.out.println("off");
                     }
-                    System.out.println("direction: " + car.direction);
-                    System.out.println("speed: " + car.speed);
-                    System.out.println("gear: " + car.gear);
+                    System.out.println("direction: " + car.getDirection());
+                    System.out.println("speed: " + car.getSpeed());
+                    System.out.println("gear: " + car.getGear());
                     break;
                 case "EngineOn":
-                    car.TurnOnEngine();
+                    boolean engine = car.turnOnEngine();
+                    if (!engine) {
+                        System.out.println("Двигатель не может быть включён");
+                    }
                     break;
                 case "EngineOff":
-                    car.TurnOffEngine();
+                    engine = car.turnOffEngine();
+                    if (!engine) {
+                        System.out.println("Двигатель не может быть выключен");
+                    }
                     break;
                 case "SetGear":
                     final int gear = scanner.nextInt();
-                    car.SetGear(gear);
+                    car.setGear(gear);
                     break;
                 case "SetSpeed":
                     final int speed = scanner.nextInt();
-                    car.SetSpeed(speed);
+                    car.setSpeed(speed);
                     break;
                 case "Exit":
                     running = false;

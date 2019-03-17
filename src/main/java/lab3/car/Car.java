@@ -1,106 +1,82 @@
 package lab3.car;
 
 class Car {
-    boolean engineState = false;
-    String direction = "stay";
-    int speed;
-    int gear = 0;
+    private boolean engineState = false;
+    private EDirection direction = EDirection.STAY;
+    private Transmission transmission = new Transmission();
+    private int speed;
 
-    boolean TurnOnEngine() {
-        if (!engineState) {
-            engineState = true;
-        }
+    EDirection getDirection() {
+        return direction;
+    }
+
+    boolean getEngineState() {
         return engineState;
     }
 
-    boolean TurnOffEngine() {
-        if (engineState && gear == 0 && direction.equals("stay")) {
-            engineState = false;
-        }
+    int getGear() {
+        return transmission.getGear();
+    }
+
+    boolean setGear(int nextGear) {
+        setDirection(nextGear);
         if (!engineState) {
-            return true;
+            if (nextGear == 0) {
+                return transmission.setGear(nextGear, speed, direction);
+            }
         } else {
-            return false;
+            return transmission.setGear(nextGear, speed, direction);
+        }
+        return false;
+    }
+
+    int getSpeed() {
+        return speed;
+    }
+
+    private void setDirection(int nextGear) {
+        if (transmission.getGear() > 0) {
+            if (direction != EDirection.BACK && speed != 0) {
+                direction = EDirection.FORWARD;
+            }
+        } else if (transmission.getGear() < 0) {
+            direction = EDirection.BACK;
+        } else if (speed == 0) {
+            direction = EDirection.STAY;
+        }
+        if ((nextGear == -1 && speed == 0 && (direction == EDirection.STAY || direction == EDirection.BACK)) || (speed == 0 && nextGear == 0)) {
+            direction = EDirection.STAY;
         }
     }
 
-    boolean SetGear(int gear) {
-        if (gear > 0) {
-            if (!direction.equals("back") && speed != 0) {
-                this.direction = "forward";
-            }
-        } else if (gear < 0 && this.gear == 0) {
-            this.direction = "back";
-        } else if (gear == 0 && speed == 0) {
-            this.direction = "stay";
+    boolean turnOnEngine() {
+        if (engineState) {
+            return false;
         }
-        boolean forward = direction.equals("forward");
-        boolean stay = direction.equals("stay");
-        boolean back = direction.equals("back");
-        if (!engineState) {
-            if (gear == 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        if (gear == -1 && speed == 0 && (stay || back)) {
-            this.gear = -1;
-            this.direction = "stay";
-            return true;
-        } else if (gear == 0 && 0 <= speed && speed <= 150) {
-            this.gear = 0;
-            return true;
-        } else if (gear == 1 && 0 <= speed && speed <= 30 && (forward || stay)) {
-            if (this.gear == -1 && speed == 0) {
-                this.gear = 1;
-                return true;
-            }
-            if (this.gear == -1 && speed != 0 && stay) {
-                this.gear = 1;
-                return true;
-            }
+        engineState = true;
+        return true;
+    }
 
-            if (this.gear != -1) {
-                this.gear = 1;
-                return true;
-            }
-        } else if (gear == 2 && 20 <= speed && speed <= 50 && forward) {
-            this.gear = 2;
-            return true;
-        } else if (gear == 3 && 30 <= speed && speed <= 60 && forward) {
-            this.gear = 3;
-            return true;
-        } else if (gear == 4 && 40 <= speed && speed <= 90 && forward) {
-            this.gear = 4;
-            return true;
-        } else if (gear == 5 && 50 <= speed && speed <= 150 && forward) {
-            this.gear = 5;
+    boolean turnOffEngine() {
+        if (engineState && transmission.getGear() == 0 && direction.equals(EDirection.STAY)) {
+            engineState = false;
             return true;
         }
         return false;
     }
 
-    boolean SetSpeed(int speed) {
-        boolean condition =
-            speed >= 0 && speed <= 20 && this.gear == -1 ||
-                speed >= 0 && speed <= 150 && this.gear == 0 && speed <= this.speed ||
-                speed >= 0 && speed <= 30 && this.gear == 1 ||
-                speed >= 20 && speed <= 50 && this.gear == 2 ||
-                speed >= 30 && speed <= 60 && this.gear == 3 ||
-                speed >= 40 && speed <= 90 && this.gear == 4 ||
-                speed >= 50 && speed <= 150 && this.gear == 5;
-        if (gear == -1 && speed != 0) {
-            direction = "back";
+    boolean setSpeed(int nextSpeed) {
+        if (transmission.getGear() == -1 && nextSpeed != 0) {
+            direction = EDirection.BACK;
         }
-        if (gear == 0 && speed == 0) {
-            direction = "stay";
+        if (transmission.getGear() == 0 && nextSpeed == 0) {
+            direction = EDirection.STAY;
         }
-        if (gear > 0 && speed > 0 && condition) {
-            direction = "forward";
+        if (transmission.getGear() > 0 && nextSpeed > 0 && transmission.checkCanSetSpeed(nextSpeed, speed)) {
+            direction = EDirection.FORWARD;
         }
-        if (condition) {
-            this.speed = speed;
+        if (transmission.checkCanSetSpeed(nextSpeed, speed)) {
+            speed = nextSpeed;
             return true;
         }
         return false;

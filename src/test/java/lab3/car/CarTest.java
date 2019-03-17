@@ -7,6 +7,9 @@ import static org.junit.Assert.*;
 
 public class CarTest {
     private Car car = new Car();
+    private EDirection BACK = EDirection.BACK;
+    private EDirection STAY = EDirection.STAY;
+    private EDirection FORWARD = EDirection.FORWARD;
 
     @Before
     public void setUp() {
@@ -15,185 +18,198 @@ public class CarTest {
 
     @Test
     public void turnOnEngineWorks() {
-        car.TurnOnEngine();
-        assertTrue(car.engineState);
-        assertEquals(0, car.gear);
-        assertEquals("stay", car.direction);
+        car.turnOnEngine();
+        assertTrue(car.getEngineState());
+        assertEquals(0, car.getGear());
+        assertEquals(STAY, car.getDirection());
     }
 
     @Test
     public void turnOffEngineWorks() {
-        car.TurnOnEngine();
-        car.TurnOffEngine();
-        assertFalse(car.engineState);
-        assertEquals(0, car.speed);
-        assertEquals(0, car.gear);
+        car.turnOnEngine();
+        car.turnOffEngine();
+        assertFalse(car.getEngineState());
+        assertEquals(0, car.getSpeed());
+        assertEquals(0, car.getGear());
     }
 
     @Test
     public void setGearWorks() {
-        assertTrue(car.SetGear(0));
-        assertFalse(car.SetGear(2));
-        car.TurnOnEngine();
-        assertTrue(car.SetGear(1));
+        assertTrue(car.setGear(0));
+        assertFalse(car.setGear(2));
+        car.turnOnEngine();
+        assertTrue(car.setGear(1));
+        car.setSpeed(25);
+        car.setGear(2);
+        assertEquals(2, car.getGear());
+        car.setSpeed(35);
+        car.setGear(3);
+        assertEquals(3, car.getGear());
+        car.setSpeed(45);
+        car.setGear(4);
+        assertEquals(4, car.getGear());
+        car.setSpeed(55);
+        car.setGear(5);
+        assertEquals(5, car.getGear());
+
     }
 
     @Test
     public void setSpeedWorks() {
-        car.TurnOnEngine();
-        car.SetGear(1);
-        assertTrue(car.SetSpeed(10));
-        assertFalse(car.SetSpeed(50));
-        car.SetSpeed(25);
-        car.SetGear(2);
-        assertTrue(car.SetSpeed(30));
-        assertFalse(car.SetSpeed(60));
-        car.SetSpeed(40);
-        car.SetGear(3);
-        assertTrue(car.SetSpeed(50));
-        assertFalse(car.SetSpeed(70));
-        car.SetSpeed(55);
-        car.SetGear(4);
-        assertTrue(car.SetSpeed(70));
-        assertFalse(car.SetSpeed(100));
-        car.SetSpeed(70);
-        car.SetGear(5);
-        assertTrue(car.SetSpeed(120));
-        assertFalse(car.SetSpeed(160));
+        car.turnOnEngine();
+        car.setGear(1);
+        assertTrue(car.setSpeed(10));
+        assertFalse(car.setSpeed(50));
+        car.setSpeed(25);
+        car.setGear(2);
+        assertTrue(car.setSpeed(30));
+        assertFalse(car.setSpeed(60));
+        car.setSpeed(40);
+        car.setGear(3);
+        assertTrue(car.setSpeed(50));
+        assertFalse(car.setSpeed(70));
+        car.setSpeed(55);
+        car.setGear(4);
+        assertTrue(car.setSpeed(70));
+        assertFalse(car.setSpeed(100));
+        car.setSpeed(70);
+        car.setGear(5);
+        assertTrue(car.setSpeed(120));
+        assertFalse(car.setSpeed(160));
     }
 
     @Test
     public void neutralGearWorks() {
-        car.TurnOnEngine();
-        car.SetGear(1);
-        assertEquals(1, car.gear);
-        car.SetSpeed(25);
-        assertEquals(25, car.speed);
-        car.SetGear(2);
-        assertEquals(2, car.gear);
-        car.SetSpeed(40);
-        assertEquals(40, car.speed);
-        car.SetGear(0);
-        assertEquals(0, car.gear);
-        assertTrue(car.SetSpeed(35));
-        assertFalse(car.SetSpeed(45));
+        car.turnOnEngine();
+        car.setGear(1);
+        assertEquals(1, car.getGear());
+        car.setSpeed(25);
+        assertEquals(25, car.getSpeed());
+        car.setGear(2);
+        assertEquals(2, car.getGear());
+        car.setSpeed(40);
+        assertEquals(40, car.getSpeed());
+        car.setGear(0);
+        assertEquals(0, car.getGear());
+        assertTrue(car.setSpeed(35));
+        assertFalse(car.setSpeed(45));
     }
 
     @Test
     public void neutralGearWithAny() {
-        car.TurnOnEngine();
-        car.SetGear(-1);
-        assertEquals(-1, car.gear);
-        car.SetSpeed(5);
-        assertEquals("back", car.direction);
-        assertEquals(5, car.speed);
-        car.SetGear(0);
-        assertEquals(0, car.gear);
-        car.SetSpeed(0);
-        assertEquals("stay", car.direction);
-        assertEquals(0, car.speed);
-        car.SetGear(1);
-        assertEquals(1, car.gear);
-        car.SetSpeed(25);
-        assertEquals("forward", car.direction);
-        assertEquals(25, car.speed);
-        assertTrue(car.SetGear(0));
-        car.SetGear(2);
-        car.SetSpeed(40);
-        assertTrue(car.SetGear(0));
-        car.SetGear(3);
-        car.SetSpeed(55);
-        assertTrue(car.SetGear(0));
-        car.SetGear(4);
-        car.SetSpeed(70);
-        assertTrue(car.SetGear(0));
-        car.SetGear(5);
+        car.turnOnEngine();
+        car.setGear(-1);
+        assertEquals(-1, car.getGear());
+        car.setSpeed(5);
+        assertEquals(BACK, car.getDirection());
+        assertEquals(5, car.getSpeed());
+        car.setGear(0);
+        assertEquals(0, car.getGear());
+        car.setSpeed(0);
+        assertEquals(STAY, car.getDirection());
+        assertEquals(0, car.getSpeed());
+        car.setGear(1);
+        assertEquals(1, car.getGear());
+        car.setSpeed(25);
+        assertEquals(FORWARD, car.getDirection());
+        assertEquals(25, car.getSpeed());
+        assertTrue(car.setGear(0));
+        car.setGear(2);
+        car.setSpeed(40);
+        assertTrue(car.setGear(0));
+        car.setGear(3);
+        car.setSpeed(55);
+        assertTrue(car.setGear(0));
+        car.setGear(4);
+        car.setSpeed(70);
+        assertTrue(car.setGear(0));
+        car.setGear(5);
     }
 
     @Test
     public void reverseGearWorks() {
-        car.TurnOnEngine();
-        car.SetGear(-1);
-        assertEquals("stay", car.direction);
-        car.SetSpeed(10);
-        car.SetGear(0);
-        assertFalse(car.SetGear(1));
-        assertFalse(car.SetGear(2));
-        assertFalse(car.SetGear(3));
-        assertFalse(car.SetGear(4));
-        assertFalse(car.SetGear(5));
-        car.SetSpeed(0);
-        assertTrue(car.SetGear(1));
+        car.turnOnEngine();
+        car.setGear(-1);
+        assertEquals(STAY, car.getDirection());
+        car.setSpeed(10);
+        car.setGear(0);
+        assertFalse(car.setGear(1));
+        assertFalse(car.setGear(2));
+        assertFalse(car.setGear(3));
+        assertFalse(car.setGear(4));
+        assertFalse(car.setGear(5));
+        car.setSpeed(0);
+        assertTrue(car.setGear(1));
     }
 
     @Test
-    public void testAll() {
-        car.TurnOnEngine();
-        car.SetGear(1);
-        assertTrue(car.engineState);
-        assertEquals(1, car.gear);
-        assertFalse(car.SetSpeed(31));
-        assertEquals("stay", car.direction);
-        car.SetSpeed(10);
-        assertEquals(10, car.speed);
-        assertEquals("forward", car.direction);
-        car.SetGear(0);
-        assertEquals(0, car.gear);
-        assertFalse(car.SetGear(2));
-        assertEquals(0, car.gear);
-        car.SetGear(1);
-        car.SetSpeed(20);
-        assertEquals("forward", car.direction);
-        assertEquals(1, car.gear);
-        assertEquals(20, car.speed);
-        car.SetSpeed(30);
-        assertEquals(30, car.speed);
-        assertFalse(car.SetSpeed(40));
-        assertEquals(30, car.speed);
-        assertFalse(car.SetGear(-1));
-        assertEquals("forward", car.direction);
-        assertEquals(1, car.gear);
-        car.SetGear(3);
-        assertEquals(3, car.gear);
-        assertFalse(car.SetSpeed(29));
-        assertFalse(car.SetSpeed(61));
-        car.SetGear(2);
-        assertEquals(2, car.gear);
-        assertFalse(car.SetSpeed(19));
-        assertEquals(30, car.speed);
-        assertFalse(car.SetSpeed(51));
-        assertEquals(30, car.speed);
-        car.SetGear(3);
-        car.SetSpeed(60);
-        assertEquals(3, car.gear);
-        assertEquals(60, car.speed);
-        car.SetGear(0);
-        assertEquals(0, car.gear);
-        assertFalse(car.SetSpeed(61));
-        assertEquals(60, car.speed);
-        car.SetSpeed(59);
-        assertEquals(59, car.speed);
-        car.SetSpeed(20);
-        assertEquals(20, car.speed);
-        car.SetSpeed(0);
-        assertEquals(0, car.gear);
-        assertFalse(car.SetSpeed(10));
-        assertEquals(0, car.speed);
-        car.SetGear(1);
-        car.SetSpeed(10);
-        assertEquals(1, car.gear);
-        assertEquals(10, car.speed);
-        assertFalse(car.TurnOffEngine());
-        car.SetSpeed(0);
-        assertEquals(0, car.speed);
-        assertFalse(car.TurnOffEngine());
-        car.SetGear(0);
-        assertEquals(0, car.gear);
-        car.TurnOffEngine();
-        assertFalse(car.engineState);
-        assertFalse(car.SetSpeed(10));
-        assertFalse(car.SetGear(1));
-        assertEquals(0, car.speed);
-        assertEquals(0, car.gear);
+    public void testComplexFlow() {
+        car.turnOnEngine();
+        car.setGear(1);
+        assertTrue(car.getEngineState());
+        assertEquals(1, car.getGear());
+        assertFalse(car.setSpeed(31));
+        assertEquals(STAY, car.getDirection());
+        car.setSpeed(10);
+        assertEquals(10, car.getSpeed());
+        assertEquals(FORWARD, car.getDirection());
+        car.setGear(0);
+        assertEquals(0, car.getGear());
+        assertFalse(car.setGear(2));
+        assertEquals(0, car.getGear());
+        car.setGear(1);
+        car.setSpeed(20);
+        assertEquals(FORWARD, car.getDirection());
+        assertEquals(1, car.getGear());
+        assertEquals(20, car.getSpeed());
+        car.setSpeed(30);
+        assertEquals(30, car.getSpeed());
+        assertFalse(car.setSpeed(40));
+        assertEquals(30, car.getSpeed());
+        assertFalse(car.setGear(-1));
+        assertEquals(FORWARD, car.getDirection());
+        assertEquals(1, car.getGear());
+        car.setGear(3);
+        assertEquals(3, car.getGear());
+        assertFalse(car.setSpeed(29));
+        assertFalse(car.setSpeed(61));
+        car.setGear(2);
+        assertEquals(2, car.getGear());
+        assertFalse(car.setSpeed(19));
+        assertEquals(30, car.getSpeed());
+        assertFalse(car.setSpeed(51));
+        assertEquals(30, car.getSpeed());
+        car.setGear(3);
+        car.setSpeed(60);
+        assertEquals(3, car.getGear());
+        assertEquals(60, car.getSpeed());
+        car.setGear(0);
+        assertEquals(0, car.getGear());
+        assertFalse(car.setSpeed(61));
+        assertEquals(60, car.getSpeed());
+        car.setSpeed(59);
+        assertEquals(59, car.getSpeed());
+        car.setSpeed(20);
+        assertEquals(20, car.getSpeed());
+        car.setSpeed(0);
+        assertEquals(0, car.getGear());
+        assertFalse(car.setSpeed(10));
+        assertEquals(0, car.getSpeed());
+        car.setGear(1);
+        car.setSpeed(10);
+        assertEquals(1, car.getGear());
+        assertEquals(10, car.getSpeed());
+        assertFalse(car.turnOffEngine());
+        car.setSpeed(0);
+        assertEquals(0, car.getSpeed());
+        assertFalse(car.turnOffEngine());
+        car.setGear(0);
+        assertEquals(0, car.getGear());
+        car.turnOffEngine();
+        assertFalse(car.getEngineState());
+        assertFalse(car.setSpeed(10));
+        assertFalse(car.setGear(1));
+        assertEquals(0, car.getSpeed());
+        assertEquals(0, car.getGear());
     }
 }
