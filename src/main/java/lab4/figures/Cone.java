@@ -19,4 +19,15 @@ class Cone extends Body {
         height = (3 * volume) / (Math.PI * Math.pow(radius, 2));
         return height;
     }
+
+    @Override
+    String ToString() {
+        return "Cone:" + "\n" +
+            "Density: " + GetDensity() + "\n" +
+            "Volume: " + GetVolume() + "\n" +
+            "Mass: " + GetMass() + "\n" +
+            "Radius: " + GetBaseRadius() + "\n" +
+            "Height: " + GetHeight() + "\n"
+            ;
+    }
 }

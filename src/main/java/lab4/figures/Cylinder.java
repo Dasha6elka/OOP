@@ -19,4 +19,15 @@ class Cylinder extends Body {
         height = volume / (Math.PI * Math.pow(radius, 2));
         return height;
     }
+
+    @Override
+    String ToString() {
+        return "Cylinder:" + "\n" +
+            "Density: " + GetDensity() + "\n" +
+            "Volume: " + GetVolume() + "\n" +
+            "Mass: " + GetMass() + "\n" +
+            "Radius: " + GetBaseRadius() + "\n" +
+            "Height: " + GetHeight() + "\n"
+            ;
+    }
 }

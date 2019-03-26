@@ -26,4 +26,16 @@ class Parallelepiped extends Body {
         depth = volume / (width * height);
         return depth;
     }
+
+    @Override
+    String ToString() {
+        return "Parallelepiped:" + "\n" +
+            "Density: " + GetDensity() + "\n" +
+            "Volume: " + GetVolume() + "\n" +
+            "Mass: " + GetMass() + "\n" +
+            "Width: " + GetWidth() + "\n" +
+            "Height: " + GetHeight() + "\n" +
+            "Depth: " + GetDepth() + "\n"
+            ;
+    }
 }

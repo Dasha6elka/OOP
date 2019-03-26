@@ -1,11 +1,11 @@
 package lab4.figures;
 
-abstract class Body {
+import java.util.Scanner;
+
+class Body {
     double density;
     double volume;
     double mass;
-    double radius;
-    double height;
 
     Body(double density, double volume, double mass) {
         this.density = density;
@@ -22,18 +22,30 @@ abstract class Body {
     }
 
     double GetMass() {
-        return (density * volume);
-    }
-
-    double GetBaseRadius() {
-        return radius;
-    }
-
-    double GetHeight() {
-        return height;
+        return GetDensity() * GetVolume();
     }
 
     String ToString() {
-        return "Фигура";
+        return "Density: " + GetDensity() + "\n" +
+            "Volume: " + GetVolume() + "\n" +
+            "Mass: " + GetMass() + "\n"
+        ;
+    }
+
+    Body init(Scanner scanner, String name) {
+        Body figure = new Body(0,0,0);
+        if (name.equals("cone")) {
+            figure = new Cone(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(),1,1);
+        }
+        if (name.equals("cylinder")) {
+            figure = new Cylinder(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(),1,1);
+        }
+        if (name.equals("sphere")) {
+            figure = new Sphere(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble());
+        }
+        if (name.equals("parallelepiped")) {
+            figure = new Parallelepiped(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(),1,1, 1);
+        }
+        return figure;
     }
 }
