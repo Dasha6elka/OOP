@@ -13,23 +13,12 @@ class Compound extends Body {
 
     @Override
     double GetMass() {
-        double compoundMass = 0;
-        for (Body figure: compoundFigures) {
-            compoundMass += figure.mass;
-        }
-        if (compoundMass == 0) {
-            compoundMass = mass;
-        }
-        return compoundMass;
+        return mass;
     }
 
     @Override
     double GetVolume() {
-        double compoundVolume = 0;
-        for (Body figure: compoundFigures) {
-            compoundVolume += figure.volume;
-        }
-        return compoundVolume;
+        return volume;
     }
 
     @Override
@@ -37,25 +26,48 @@ class Compound extends Body {
         return GetMass() / GetVolume();
     }
 
+    @Override
+    String GetName() {
+        return "Compound: ";
+    }
+
+    @Override
+    String OutFigMass() {
+        for (Body fig: compoundFigures) {
+            System.out.print(fig.GetName());
+            System.out.print(" масса ");
+            System.out.println(fig.GetMass());
+        }
+        return "";
+    }
+
+    @Override
+    String OutFigMassInWater() {
+        for (Body fig: compoundFigures) {
+            System.out.print(fig.GetName());
+            System.out.print(" масса ");
+            System.out.println(fig.GetMassInWater());
+        }
+        return "";
+    }
+
     boolean AddChildBody(Scanner scanner, List<Body> figures, Compound compound) {
         while (scanner.hasNextLine()) {
             String name = scanner.next();
             Body figure = new Body(0,0,0);
-            figure = figure.init(scanner, name);
+            figure = Init.init(scanner, name, figure);
             if(name.equals("exit")) {
                 break;
             }
             if (name.equals("compound")) {
                 System.out.println("Введите фигуры для составного тела:");
                 compound.AddChildBody(scanner, figures, compound);
-                density = compound.GetDensity();
-                volume = compound.GetVolume();
-                mass = compound.GetMass();
             } else {
                 figures.add(figure);
                 compoundFigures.add(figure);
+                volume += figure.GetVolume();
+                mass += figure.GetMass();
             }
-
         }
         return !compoundFigures.isEmpty();
     }

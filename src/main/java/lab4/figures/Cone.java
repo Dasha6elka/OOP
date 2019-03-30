@@ -21,6 +21,11 @@ class Cone extends Body {
     }
 
     @Override
+    String GetName() {
+        return "Cone ";
+    }
+
+    @Override
     String ToString() {
         return "Cone:" + "\n" +
             "Density: " + GetDensity() + "\n" +

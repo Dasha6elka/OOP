@@ -21,6 +21,11 @@ class Cylinder extends Body {
     }
 
     @Override
+    String GetName() {
+        return "Cylinder ";
+    }
+
+    @Override
     String ToString() {
         return "Cylinder:" + "\n" +
             "Density: " + GetDensity() + "\n" +

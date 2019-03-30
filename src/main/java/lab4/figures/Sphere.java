@@ -11,6 +11,11 @@ class Sphere extends Body {
     }
 
     @Override
+    String GetName() {
+        return "Sphere ";
+    }
+
+    @Override
     String ToString() {
         return "Sphere:" + "\n" +
             "Density: " + GetDensity() + "\n" +

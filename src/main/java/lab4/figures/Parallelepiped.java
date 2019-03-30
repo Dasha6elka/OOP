@@ -28,6 +28,11 @@ class Parallelepiped extends Body {
     }
 
     @Override
+    String GetName() {
+        return "Parallelepiped ";
+    }
+
+    @Override
     String ToString() {
         return "Parallelepiped:" + "\n" +
             "Density: " + GetDensity() + "\n" +

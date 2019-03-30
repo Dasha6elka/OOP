@@ -11,38 +11,45 @@ public class Main {
             if(name.equals("exit")) {
                 break;
             }
-            figure = figure.init(scanner, name);
+            figure = Init.init(scanner, name, figure);
             if (name.equals("compound")) {
                 System.out.println("Введите фигуры для составного тела:");
                 Compound compound = new Compound(0, 0, 0);
                 compound.AddChildBody(scanner, figures, compound);
-                Compound comp = new Compound(compound.density, compound.volume, compound.mass);
-                figures.add(comp);
+                compound.density = compound.GetDensity();
+                figures.add(compound);
             } else {
                 figures.add(figure);
             }
         }
     }
 
-    static double greatestMass(List<Double> masses) {
-        Collections.sort(masses);
-        return masses.get(masses.size() - 1);
+    static Body greatestMass(List<Body> figures) {
+        double mass = 0;
+        Body figureWithGreatestMass = new Body(0, 0, 0);
+        for (Body figure: figures) {
+            if (mass < figure.GetMass()) {
+                mass = figure.GetMass();
+                figureWithGreatestMass = figure;
+            }
+        }
+        return figureWithGreatestMass;
     }
 
-    static double getMassInWater(double volume) {
-        double densityWater = 1000;
-        return densityWater * volume;
-    }
-
-    static Double lowestMass(List<Double> massesFigureInWater) {
-        Collections.sort(massesFigureInWater);
-        return massesFigureInWater.get(0);
+    static Body lowestMass(List<Body> figures) {
+        double mass = 0;
+        Body figureWithLowestMass = new Body(0, 0, 0);
+        for (Body figure: figures) {
+            if (mass > figure.GetMassInWater()) {
+                mass = figure.GetMassInWater();
+                figureWithLowestMass = figure;
+            }
+        }
+        return figureWithLowestMass;
     }
 
     public static void main(String[] argc) {
         List<Body> figures = new LinkedList<>();
-        List<Double> masses = new LinkedList<>();
-        List<Double> massesFigureInWater = new LinkedList<>();
 
         System.out.println("Введите фигуры(cone, cylinder, sphere, parallelepiped and compound) и их плотность, объём и массу");
         Scanner scanner = new Scanner(System.in);
@@ -53,14 +60,17 @@ public class Main {
             System.out.println(out);
         }
 
-        for (Body figure: figures) {
-            masses.add(figure.GetMass());
-            massesFigureInWater.add(Main.getMassInWater(figure.GetMass()));
-        }
-
-        System.out.print("Максимальная масса: ");
-        System.out.println(Main.greatestMass(masses));
-        System.out.print("Минимальная масса фигуры, погружённой в воду: ");
-        System.out.println(Main.lowestMass(massesFigureInWater));
+        System.out.println("Максимальная масса: ");
+        Body fig = Main.greatestMass(figures);
+        System.out.print(fig.GetName());
+        System.out.print(" масса ");
+        System.out.println(fig.GetMass());
+        fig.OutFigMass();
+        System.out.println("Минимальная масса фигуры, погружённой в воду: ");
+        fig = Main.lowestMass(figures);
+        System.out.print(fig.GetName());
+        System.out.print(" вес фигуры, погружённой в воду ");
+        System.out.println(fig.GetMassInWater());
+        fig.OutFigMassInWater();
     }
 }

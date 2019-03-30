@@ -12,32 +12,95 @@ public class MainTest {
 
     @Test
     public void testGreatestMassWorks() {
-        List<Double> masses = new LinkedList<>();
-        masses.add((double) 45);
-        masses.add((double) 789);
-        masses.add(34.543);
-        masses.add(12.89);
-        masses.add((double) 54);
-        double mass = 789;
-        assertEquals(mass, Main.greatestMass(masses), 0.001);
-    }
-
-    @Test
-    public void testGetMassInWaterWorks() {
-        double volume = 4;
-        double massInWaterRight = 4000;
-        assertEquals(massInWaterRight, Main.getMassInWater(volume), 0.001);
+        List<Body> figures = new LinkedList<>();
+        Body cone = new Cone(2, 3, 4, 1, 1);
+        figures.add(cone);
+        Body cylinder = new Cylinder(5, 6, 7, 1, 1);
+        figures.add(cylinder);
+        Body parallelepiped = new Parallelepiped(1, 2, 3, 1, 1, 1);
+        figures.add(parallelepiped);
+        Body sphere = new Sphere(7, 8, 9);
+        figures.add(sphere);
+        Body fig = Main.greatestMass(figures);
+        double mass = fig.GetMass();
+        double rightMass = 56;
+        assertEquals(rightMass, mass, 0.001);
     }
 
     @Test
     public void testLowestMassWorks() {
-        List<Double> masses = new LinkedList<>();
-        masses.add(Main.getMassInWater(45));
-        masses.add(Main.getMassInWater(789));
-        masses.add(Main.getMassInWater(34.543));
-        masses.add(Main.getMassInWater(12.89));
-        masses.add(Main.getMassInWater(54));
-        double mass = 12890;
-        assertEquals(mass, Main.lowestMass(masses), 0.001);
+        List<Body> figures = new LinkedList<>();
+        Body cone = new Cone(2, 3, 4, 1, 1);
+        figures.add(cone);
+        Body cylinder = new Cylinder(5, 6, 7, 1, 1);
+        figures.add(cylinder);
+        Body parallelepiped = new Parallelepiped(1, 2, 3, 1, 1, 1);
+        figures.add(parallelepiped);
+        Body sphere = new Sphere(7, 8, 9);
+        figures.add(sphere);
+        Body fig = Main.lowestMass(figures);
+        double mass = fig.GetMassInWater();
+        double rightMass = -79440;
+        assertEquals(rightMass, mass, 0.001);
+    }
+
+    @Test
+    public void testOneFigureHaveGreatestMass() {
+        Scanner scanner = new Scanner("cone 2000 40 50" + "\n" +
+            "compound" + "\n" +
+            "cylinder 1 2 3" + "\n" +
+            "exit" + "\n" +
+            "compound" + "\n" +
+            "parallelepiped 1 2 3" + "\n" +
+            "compound" + "\n" +
+            "sphere 2 3 4" + "\n" +
+            "exit exit exit exit");
+        List<Body> figures = new LinkedList<>();
+        Main.initialized(scanner, figures);
+        assertEquals(6, figures.size());
+        Body fig = Main.greatestMass(figures);
+        assertEquals(80000, fig.GetMass(), 0.001);
+        fig = Main.lowestMass(figures);
+        assertEquals(-49920, fig.GetMassInWater(), 0.001);
+    }
+
+    @Test
+    public void testCompoundFigureHaveGreatestMass() {
+        Scanner scanner = new Scanner("cone 1 2 3" + "\n" +
+            "compound" + "\n" +
+            "cylinder 5000 10 30" + "\n" +
+            "exit" + "\n" +
+            "compound" + "\n" +
+            "parallelepiped 1 2 3" + "\n" +
+            "compound" + "\n" +
+            "sphere 2 3 4" + "\n" +
+            "exit exit exit exit");
+        List<Body> figures = new LinkedList<>();
+        Main.initialized(scanner, figures);
+        assertEquals(6, figures.size());
+        Body fig = Main.greatestMass(figures);
+        assertEquals(50000, fig.GetMass(), 0.001);
+        fig = Main.lowestMass(figures);
+        assertEquals(-49920, fig.GetMassInWater(), 0.001);
+    }
+
+    @Test
+    public void testCompoundInCompoundFigureHaveGreatestMass() {
+        Scanner scanner = new Scanner("cone 1 2 3" + "\n" +
+            "compound" + "\n" +
+            "cylinder 2 3 4" + "\n" +
+            "exit" + "\n" +
+            "compound" + "\n" +
+            "parallelepiped 20 50 1" + "\n" +
+            "compound" + "\n" +
+            "sphere 700 30 80" + "\n" +
+            "exit exit exit exit");
+        List<Body> figures = new LinkedList<>();
+        Main.initialized(scanner, figures);
+        assertEquals(6, figures.size());
+        Body fig = Main.greatestMass(figures);
+        assertEquals(22000, fig.GetMass(), 0.001);
+        fig = Main.lowestMass(figures);
+        assertEquals(-580000, fig.GetMassInWater(), 0.001);
     }
 }
