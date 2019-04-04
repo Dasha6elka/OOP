@@ -1,6 +1,6 @@
-package lab5
+package lab5.complex
 
-import lab5.Complex.Companion.EPS
+import lab5.complex.Complex.Companion.EPS
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -1,4 +1,4 @@
-package lab5
+package lab5.complex
 
 import org.apache.commons.lang3.math.NumberUtils
 import java.io.IOException
