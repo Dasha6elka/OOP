@@ -46,7 +46,7 @@ class Compound extends Body {
         for (Body fig: compoundFigures) {
             System.out.print(fig.GetName());
             System.out.print(" масса ");
-            System.out.println(fig.GetMassInWater());
+            System.out.println(fig.GetWeightInWater());
         }
         return "";
     }

@@ -23,7 +23,7 @@ class Body {
         return GetDensity() * GetVolume();
     }
 
-    double GetMassInWater() {
+    double GetWeightInWater() {
         return (GetDensity() - 1000) * GetVolume() * 10;
     }
 

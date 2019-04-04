@@ -39,7 +39,7 @@ public class MainTest {
         Body sphere = new Sphere(7, 8, 9);
         figures.add(sphere);
         Body fig = Main.lowestMass(figures);
-        double mass = fig.GetMassInWater();
+        double mass = fig.GetWeightInWater();
         double rightMass = -79440;
         assertEquals(rightMass, mass, 0.001);
     }
@@ -61,7 +61,7 @@ public class MainTest {
         Body fig = Main.greatestMass(figures);
         assertEquals(80000, fig.GetMass(), 0.001);
         fig = Main.lowestMass(figures);
-        assertEquals(-49920, fig.GetMassInWater(), 0.001);
+        assertEquals(-49920, fig.GetWeightInWater(), 0.001);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class MainTest {
         Body fig = Main.greatestMass(figures);
         assertEquals(50000, fig.GetMass(), 0.001);
         fig = Main.lowestMass(figures);
-        assertEquals(-49920, fig.GetMassInWater(), 0.001);
+        assertEquals(-49920, fig.GetWeightInWater(), 0.001);
     }
 
     @Test
@@ -101,6 +101,6 @@ public class MainTest {
         Body fig = Main.greatestMass(figures);
         assertEquals(22000, fig.GetMass(), 0.001);
         fig = Main.lowestMass(figures);
-        assertEquals(-580000, fig.GetMassInWater(), 0.001);
+        assertEquals(-580000, fig.GetWeightInWater(), 0.001);
     }
 }

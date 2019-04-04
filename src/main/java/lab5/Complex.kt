@@ -113,20 +113,20 @@ class Complex constructor(private var real: Double = 0.0, private var image: Dou
     }
 }
 
-operator fun Double.plus(other: Complex): Complex {
-    return Complex(this + other.re(), other.im())
+operator fun Double.plus(number: Complex): Complex {
+    return Complex(this + number.re(), number.im())
 }
 
-operator fun Double.minus(other: Complex): Complex {
-    return Complex(this - other.re(), other.im())
+operator fun Double.minus(number: Complex): Complex {
+    return Complex(this - number.re(), number.im())
 }
 
-operator fun Double.times(other: Complex): Complex {
-    return Complex(this * other.re(), other.im())
+operator fun Double.times(number: Complex): Complex {
+    return Complex(this * number.re(), number.im())
 }
 
-operator fun Double.div(other: Complex): Complex {
-    return Complex(this / other.re(), other.im())
+operator fun Double.div(number: Complex): Complex {
+    return Complex(this / number.re(), number.im())
 }
 
 fun OutputStream.write(complex: Complex) {
@@ -169,7 +169,7 @@ fun InputStream.read(complex: Complex) {
         throw IOException("Something is wrong with image part!")
     }
 
-    val real = NumberUtils.toDouble(re)
-    val image = NumberUtils.toDouble(im)
+    val real = re.toDouble()
+    val image = im.toDouble()
     complex += Complex(if (unary == '-') -real else real, if (sign == '-') -image else image)
 }

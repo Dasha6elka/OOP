@@ -40,8 +40,8 @@ public class Main {
         double mass = 0;
         Body figureWithLowestMass = new Body(0, 0, 0);
         for (Body figure: figures) {
-            if (mass > figure.GetMassInWater()) {
-                mass = figure.GetMassInWater();
+            if (mass > figure.GetWeightInWater()) {
+                mass = figure.GetWeightInWater();
                 figureWithLowestMass = figure;
             }
         }
@@ -70,7 +70,7 @@ public class Main {
         fig = Main.lowestMass(figures);
         System.out.print(fig.GetName());
         System.out.print(" вес фигуры, погружённой в воду ");
-        System.out.println(fig.GetMassInWater());
+        System.out.println(fig.GetWeightInWater());
         fig.OutFigMassInWater();
     }
 }
