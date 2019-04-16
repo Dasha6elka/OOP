@@ -21,11 +21,15 @@ class HttpUrl {
         if (domain.isEmpty()) {
             throw new NoDomainException("Not domain in " + "'" + myUrl + "'");
         }
-        Pattern pattern = Pattern.compile("//^[\\w-]+$/");
-        Matcher matcher = pattern.matcher(document);
-        boolean flag = matcher.find();
-        if (flag) {
-            throw new NoDocumentException("Not document in " + "'" + myUrl + "'");
+
+        for (int i = 0; i < document.length(); i++) {
+            char ch = document.charAt(i);
+            if (!Character.isLetterOrDigit(ch) &&
+                ch != '-' &&
+                ch != '_' &&
+                ch != '/') {
+                throw new NoDocumentException("Not document in " + "'" + myUrl + "'");
+            }
         }
     }
 

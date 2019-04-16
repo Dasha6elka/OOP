@@ -26,8 +26,21 @@ public class HttpUrlTest {
     }
 
     @Test
+    public void initUrlWithDocumentError()throws MalformedURLException {
+        URL url = new URL("http://example.com/atstd/jfu::::123/jf_ir/kgir-spf");
+        Throwable thrown = assertThrows(NoDocumentException.class, () -> HttpUrl.initializationInputParameters(url));
+        assertNotNull(thrown.getMessage());
+    }
+
+    @Test
     public void initUrlWithProtocolError() {
         Throwable thrown = assertThrows(MalformedURLException.class, () -> new URL("httpss://example.com:99/docs/books/tutorial"));
+        assertNotNull(thrown.getMessage());
+    }
+
+    @Test
+    public void initUrlError() {
+        Throwable thrown = assertThrows(MalformedURLException.class, () -> new URL("example.com"));
         assertNotNull(thrown.getMessage());
     }
 
@@ -110,5 +123,13 @@ public class HttpUrlTest {
         String line = "https://example.com:99/docs/books/tutorial";
         HttpUrl.httpUrl(line);
         assertEquals(99, HttpUrl.getPort());
+    }
+
+    @Test
+    public void getOnlyProtocolAndDomain() throws MalformedURLException, NoDocumentException, NoDomainException, NoProtocolException {
+        String line = "http://vk.com";
+        HttpUrl.httpUrl(line);
+        assertEquals(EProtocol.HTTP, HttpUrl.getProtocol());
+        assertEquals("vk.com", HttpUrl.getDomain());
     }
 }
