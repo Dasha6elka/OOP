@@ -1,11 +1,11 @@
-package lab7;
+package lab7.genericFunction;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Main {
-    static <T extends Comparable> T FindMax(List<T> arr) {
+    public static <T extends Comparable> T FindMax(List<T> arr) {
         Collections.sort(arr);
         return arr.get(arr.size() - 1);
     }

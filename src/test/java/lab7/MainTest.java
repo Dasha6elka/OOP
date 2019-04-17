@@ -1,5 +1,6 @@
 package lab7;
 
+import lab7.genericFunction.Main;
 import org.junit.Test;
 
 import java.util.Arrays;
