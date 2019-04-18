@@ -33,6 +33,20 @@ public class HttpUrlTest {
     }
 
     @Test
+    public void initUrlWithDocument1Error()throws MalformedURLException {
+        URL url = new URL("http://fild.com:455/wexd?value=\"o*:");
+        Throwable thrown = assertThrows(NoDocumentException.class, () -> HttpUrl.initializationInputParameters(url));
+        assertNotNull(thrown.getMessage());
+    }
+
+    @Test
+    public void initUrlWithDocument2Error()throws MalformedURLException {
+        URL url = new URL("http://fild.com:455/wexd\"o*:");
+        Throwable thrown = assertThrows(NoDocumentException.class, () -> HttpUrl.initializationInputParameters(url));
+        assertNotNull(thrown.getMessage());
+    }
+
+    @Test
     public void initUrlWithProtocolError() {
         Throwable thrown = assertThrows(MalformedURLException.class, () -> new URL("httpss://example.com:99/docs/books/tutorial"));
         assertNotNull(thrown.getMessage());

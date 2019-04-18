@@ -2,8 +2,6 @@ package lab6.url;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class HttpUrl {
     static String protocol;
@@ -22,18 +20,54 @@ class HttpUrl {
             throw new NoDomainException("Not domain in " + "'" + myUrl + "'");
         }
 
+        boolean isString = false;
+        boolean isQuest = false;
+        boolean isEqual = false;
         for (int i = 0; i < document.length(); i++) {
             char ch = document.charAt(i);
+            if (ch == '?') {
+                isQuest = true;
+            }
+            if (!isQuest && ch == '"') {
+                throw new NoDocumentException("Not document in " + "'" + myUrl + "'");
+            }
+            if (ch == '=' && !isQuest) {
+                throw new NoDocumentException("Not document in " + "'" + myUrl + "'");
+            }
+            if (ch == '=') {
+                isEqual = true;
+            }
+            if (ch == '"' && !isEqual) {
+                throw new NoDocumentException("Not document in " + "'" + myUrl + "'");
+            }
+            if (ch == '"') {
+                if (isString) {
+                    isString = false;
+                    continue;
+                } else {
+                    isString = true;
+                    continue;
+                }
+            }
+            if (i == document.length() - 1 && isString) {
+                throw new NoDocumentException("Not document in " + "'" + myUrl + "'");
+            }
             if (!Character.isLetterOrDigit(ch) &&
-                ch != '-' &&
-                ch != '_' &&
-                ch != '/') {
+                ch != '-' && ch != '_' && ch != '/' &&
+                ch != '?' && ch != '!' && ch != '*' &&
+                ch != '~' && ch != '=' && ch != '(' &&
+                ch != ')' && ch != '.' && ch != '%' &&
+                ch != '+' && ch != '&' && ch != '#' &&
+                !isString) {
                 throw new NoDocumentException("Not document in " + "'" + myUrl + "'");
             }
         }
     }
 
     static void httpUrl(String url) throws NoProtocolException, NoDocumentException, NoDomainException, MalformedURLException {
+        if (url.charAt(0) != 'h') {
+            url = "http://" + url;
+        }
         URL myUrl = new URL(url);
         initializationInputParameters(myUrl);
         port = myUrl.getPort();
