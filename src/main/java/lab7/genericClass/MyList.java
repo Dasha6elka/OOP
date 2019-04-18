@@ -9,6 +9,16 @@ public class MyList<T> {
         last = null;
     }
 
+    public MyList(MyList list) {
+        first = null;
+        last = null;
+        Node temp = list.first;
+        while (temp != null) {
+            pushBack(temp.value);
+            temp = temp.next;
+        }
+    }
+
     public void pushForward(T value) {
         final Node currFirst = first;
         final Node newNode = new Node(currFirst, null, value);
@@ -31,6 +41,33 @@ public class MyList<T> {
         }
     }
 
+    public Node begin() {
+        return first;
+    }
+
+    public Node end() {
+        return last;
+    }
+
+    public Node rbegin() {
+        return last;
+    }
+
+    public Node rend() {
+        return first;
+    }
+
+    public int getSize() {
+        Node node = first;
+        int count = 0;
+        while (node != last) {
+            node = first.next;
+            first = node;
+            count++;
+        }
+        return count;
+    }
+
     public Node add(Node prev, T value) {
         final Node currPrev = prev;
         final Node currLNext = prev.next;
@@ -48,6 +85,24 @@ public class MyList<T> {
     public void delete(Node deleted) {
         final Node currPrev = deleted.prev;
         final Node currNext = deleted.next;
+        if (currPrev != null) {
+            currPrev.next = deleted.next;
+        }
+        if (currNext != null) {
+            currNext.prev = deleted.prev;
+        }
+    }
+
+    public MyList<T> assignment(MyList list) {
+        if (this == list) {
+            return this;
+        }
+        Node temp = list.first;
+        while (temp != null) {
+            pushBack(temp.value);
+            temp = temp.next;
+        }
+        return this;
     }
 
     private class Node {
