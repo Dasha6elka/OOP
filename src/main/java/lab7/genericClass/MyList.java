@@ -1,17 +1,24 @@
 package lab7.genericClass;
 
-class MyList<T> {
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
+
+class MyList<T> implements Iterable<T>{
     Node first;
     Node last;
+    int size;
 
     MyList() {
         first = null;
         last = null;
+        size = 0;
     }
 
     MyList(MyList<T> list) {
         first = null;
         last = null;
+        size = 0;
         Node temp = list.first;
         while (temp != null) {
             pushBack(temp.value);
@@ -28,6 +35,7 @@ class MyList<T> {
         } else {
             currFirst.prev = newNode;
         }
+        size++;
     }
 
     void pushBack(T value) {
@@ -39,36 +47,57 @@ class MyList<T> {
         } else {
             currLast.next = newNode;
         }
+        size++;
     }
 
     int getSize() {
-        Node node = first;
-        int count = 1;
-        while (node != last) {
-            node = first.next;
-            first = node;
-            count++;
-        }
-        return count;
+        return size;
     }
 
-    void add(Node prev, T value) {
-        Node currLNext = prev.next;
-        final Node newNode = new Node(prev, currLNext, value);
-        prev.next = newNode;
-        if (currLNext == null) {
-            currLNext = newNode;
-            last = currLNext;
-            last.next = null;
+    void add(int index, T value) {
+        if (index > size) {
+            return;
+        }
+        int i = 0;
+        Node current = first;
+        while (i != index) {
+            current = current.next;
+            i++;
+        }
+        Node currPrev;
+        if (current == null) {
+            currPrev = last;
+        } else {
+            currPrev = current.prev;
+        }
+        Node newNode = new Node(current, currPrev, value);
+        if (currPrev == null) {
+            currPrev = newNode;
+            first = currPrev;
             return;
         } else {
-            currLNext.prev = newNode;
+            currPrev.next = newNode;
         }
-        newNode.next = currLNext;
-        newNode.prev = prev;
+        if (current != null) {
+            current.prev = newNode;
+        } else {
+            last = newNode;
+        }
+        newNode.next = current;
+        newNode.prev = currPrev;
+        size++;
     }
 
-    void delete(Node deleted) {
+    void delete(int index) {
+        if (index > size) {
+            return;
+        }
+        int i = 0;
+        Node deleted = first;
+        while (i != index) {
+            deleted = deleted.next;
+            i++;
+        }
         final Node currPrev = deleted.prev;
         final Node currNext = deleted.next;
         if (currPrev != null) {
@@ -85,6 +114,7 @@ class MyList<T> {
                 last = deleted.prev;
             }
         }
+        size--;
     }
 
     void assignment(MyList list) {
@@ -95,6 +125,33 @@ class MyList<T> {
         while (temp != null) {
             pushBack(temp.value);
             temp = temp.next;
+        }
+    }
+
+    @NotNull
+    @Override
+    public Iterator<T> iterator() {
+        return new MyListIterator(first);
+    }
+
+    class MyListIterator implements Iterator<T> {
+
+        private Node current;
+
+        MyListIterator(Node current) {
+            this.current = current;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            Node node = current;
+            current = current.next;
+            return node.value;
         }
     }
 
