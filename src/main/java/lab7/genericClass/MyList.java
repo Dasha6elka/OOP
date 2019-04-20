@@ -1,15 +1,15 @@
 package lab7.genericClass;
 
-public class MyList<T> {
-    private Node first;
-    private Node last;
+class MyList<T> {
+    Node first;
+    Node last;
 
-    public MyList() {
+    MyList() {
         first = null;
         last = null;
     }
 
-    public MyList(MyList list) {
+    MyList(MyList<T> list) {
         first = null;
         last = null;
         Node temp = list.first;
@@ -19,7 +19,7 @@ public class MyList<T> {
         }
     }
 
-    public void pushForward(T value) {
+    void pushForward(T value) {
         final Node currFirst = first;
         final Node newNode = new Node(currFirst, null, value);
         first = newNode;
@@ -30,7 +30,7 @@ public class MyList<T> {
         }
     }
 
-    public void pushBack(T value) {
+    void pushBack(T value) {
         final Node currLast = last;
         final Node newNode = new Node(null, currLast, value);
         last = newNode;
@@ -41,25 +41,9 @@ public class MyList<T> {
         }
     }
 
-    public Node begin() {
-        return first;
-    }
-
-    public Node end() {
-        return last;
-    }
-
-    public Node rbegin() {
-        return last;
-    }
-
-    public Node rend() {
-        return first;
-    }
-
-    public int getSize() {
+    int getSize() {
         Node node = first;
-        int count = 0;
+        int count = 1;
         while (node != last) {
             node = first.next;
             first = node;
@@ -68,48 +52,58 @@ public class MyList<T> {
         return count;
     }
 
-    public Node add(Node prev, T value) {
-        final Node currPrev = prev;
-        final Node currLNext = prev.next;
-        final Node newNode = new Node(currPrev, currLNext, value);
-        currPrev.next = newNode;
-        currLNext.prev = newNode;
-        newNode.next = currLNext;
-        newNode.prev = currPrev;
+    void add(Node prev, T value) {
+        Node currLNext = prev.next;
+        final Node newNode = new Node(prev, currLNext, value);
+        prev.next = newNode;
         if (currLNext == null) {
+            currLNext = newNode;
+            last = currLNext;
+            last.next = null;
+            return;
+        } else {
             currLNext.prev = newNode;
         }
-        return newNode;
+        newNode.next = currLNext;
+        newNode.prev = prev;
     }
 
-    public void delete(Node deleted) {
+    void delete(Node deleted) {
         final Node currPrev = deleted.prev;
         final Node currNext = deleted.next;
         if (currPrev != null) {
             currPrev.next = deleted.next;
+        } else {
+            if (deleted.next != null) {
+                first = deleted.next;
+            }
         }
         if (currNext != null) {
             currNext.prev = deleted.prev;
+        } else {
+            if (deleted.prev != null) {
+                last = deleted.prev;
+            }
         }
     }
 
-    public MyList<T> assignment(MyList list) {
+    void assignment(MyList list) {
         if (this == list) {
-            return this;
+            return;
         }
         Node temp = list.first;
         while (temp != null) {
             pushBack(temp.value);
             temp = temp.next;
         }
-        return this;
     }
 
-    private class Node {
-        Node next, prev;
+    class Node {
+        Node next;
+        Node prev;
         T value;
 
-        public Node(Node next, Node prev, T value) {
+        Node(Node next, Node prev, T value) {
             this.next = next;
             this.prev = prev;
             this.value = value;
