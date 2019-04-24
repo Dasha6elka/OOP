@@ -1,11 +1,11 @@
 package lab6.string_stack;
 
-public class StringStack {
+class StringStack {
     private int size;
-    private Node top;
-    private Node first;
+    Node top;
+    Node first;
 
-    public StringStack() {
+    StringStack() {
         size = 0;
         top = null;
         first = null;
@@ -15,20 +15,20 @@ public class StringStack {
         return size == 0 && top == null && first == null;
     }
 
-    public StringStack copy(StringStack stack) {
+    StringStack copy(StringStack stack) {
         if (stack.isEmpty()) {
             return new StringStack();
         }
-        this.first = stack.first;
-        Node node = first;
-        while (node != stack.top) {
+        this.top = stack.top;
+        Node node = top;
+        while (node != stack.first) {
             node = node.next;
         }
-        top = stack.top;
+        first = stack.first;
         return this;
     }
 
-    public StringStack move(StringStack stack) {
+    StringStack move(StringStack stack) {
         if (stack.isEmpty()) {
             return new StringStack();
         }
@@ -37,19 +37,19 @@ public class StringStack {
         return outStack;
     }
 
-    public void assignmentCopy(StringStack stack) {
+    void assignmentCopy(StringStack stack) {
         if (this == stack) {
             return;
         }
-        this.first = stack.first;
-        Node node = first;
-        while (node != stack.top) {
+        this.top = stack.top;
+        Node node = top;
+        while (node != stack.first) {
             node = node.next;
         }
-        top = stack.top;
+        first = stack.first;
     }
 
-    public void assignmentMove(StringStack stack) {
+    void assignmentMove(StringStack stack) {
         if (this == stack) {
             return;
         }
@@ -58,29 +58,26 @@ public class StringStack {
         top = stack.top;
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public void push(String data) {
+    void push(String data) {
         if (size == 0 && top == null && first == null) {
             Node newNode = new Node(data, null);
             top = newNode;
             first = newNode;
         } else {
-            Node newNode = new Node(data, top);
-            top = newNode;
+            top = new Node(data, top);
         }
         size++;
     }
 
-    public String pop() {
+    void pop() {
         if (size == 0 && top == null) {
             throw new NullPointerException("Stack is empty");
         } else {
-            Node out = top;
             top = top.next;
-            return out.item;
         }
     }
 
