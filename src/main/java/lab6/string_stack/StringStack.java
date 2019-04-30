@@ -47,14 +47,18 @@ class StringStack {
     }
 
     void push(String data) {
-        if (size == 0 && top == null && first == null) {
-            Node newNode = new Node(data, null);
-            top = newNode;
-            first = newNode;
-        } else {
-            top = new Node(data, top);
+        try {
+            if (size == 0 && top == null && first == null) {
+                Node newNode = new Node(data, null);
+                top = newNode;
+                first = newNode;
+            } else {
+                top = new Node(data, top);
+            }
+            size++;
+        } catch (OutOfMemoryError e) {
+            System.out.println(e.getMessage());
         }
-        size++;
     }
 
     void pop() {

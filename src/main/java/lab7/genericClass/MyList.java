@@ -12,8 +12,6 @@ class MyList<T> implements ListIterator<T> {
     MyList() {
         first = null;
         last = null;
-        Node forwardCurrent = null;
-        Node backCurrent = null;
         size = 0;
     }
 
