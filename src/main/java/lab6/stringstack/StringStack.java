@@ -1,4 +1,4 @@
-package lab6.string_stack;
+package lab6.stringstack;
 
 class StringStack {
     private int size;

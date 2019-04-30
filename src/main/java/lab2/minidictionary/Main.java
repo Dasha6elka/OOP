@@ -1,4 +1,4 @@
-package lab2.mini_dictionary;
+package lab2.minidictionary;
 
 import java.io.File;
 import java.io.FileWriter;

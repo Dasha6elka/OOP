@@ -1,5 +1,6 @@
 package lab5.complex
 
+import lab5.complex.*
 import lab5.complex.Complex.Companion.EPS
 import org.junit.Test
 

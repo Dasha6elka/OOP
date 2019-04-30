@@ -68,7 +68,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>lab2.mini_dictionary.Main</mainClass>
+                                    <mainClass>lab2.minidictionary.Main</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
