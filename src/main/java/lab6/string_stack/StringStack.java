@@ -11,33 +11,17 @@ class StringStack {
         first = null;
     }
 
-    private boolean isEmpty() {
-        return size == 0 && top == null && first == null;
-    }
-
-    StringStack copy(StringStack stack) {
-        if (stack.isEmpty()) {
-            return new StringStack();
-        }
+    StringStack(StringStack stack) {
+        size = stack.size;
         this.top = stack.top;
         Node node = top;
         while (node != stack.first) {
             node = node.next;
         }
         first = stack.first;
-        return this;
     }
 
-    StringStack move(StringStack stack) {
-        if (stack.isEmpty()) {
-            return new StringStack();
-        }
-        StringStack outStack;
-        outStack = stack;
-        return outStack;
-    }
-
-    void assignmentCopy(StringStack stack) {
+    void assignmentMove(StringStack stack) {
         if (this == stack) {
             return;
         }
@@ -49,7 +33,7 @@ class StringStack {
         first = stack.first;
     }
 
-    void assignmentMove(StringStack stack) {
+    void assignmentCopy(StringStack stack) {
         if (this == stack) {
             return;
         }

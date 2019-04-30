@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class MyListTest {
 
@@ -16,6 +16,16 @@ public class MyListTest {
         list.pushForward(0);
         MyList.Node node = list.first;
         assertEquals(0, node.value);
+    }
+
+    @Test
+    public void pushForwardInIntegerListSome() {
+        MyList<Integer> list = new MyList<>();
+        list.pushForward(2);
+        list.pushForward((int) 4.98);
+        list.pushForward(0);
+        MyList.Node node = list.last;
+        assertEquals(4, node.prev.value);
     }
 
     @Test
@@ -97,6 +107,16 @@ public class MyListTest {
     }
 
     @Test
+    public void addInIntegerListBigIndex() {
+        MyList<Integer> list = new MyList<>();
+        list.pushBack(8);
+        list.pushBack(5);
+        list.pushBack(18);
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> list.add(5, 20));
+        assertNotNull(throwable.getMessage());
+    }
+
+    @Test
     public void addInIntegerListInEnd() {
         MyList<Integer> list = new MyList<>();
         list.pushBack(8);
@@ -130,7 +150,7 @@ public class MyListTest {
     }
 
     @Test
-    public void deleteInIntegerListFromEnd() {
+    public void deleteFromIntegerListFromEnd() {
         MyList<Integer> list = new MyList<>();
         list.pushBack(8);
         list.pushBack(5);
@@ -141,7 +161,17 @@ public class MyListTest {
     }
 
     @Test
-    public void deleteInIntegerListFromMiddle() {
+    public void deleteFromIntegerListBigIndex() {
+        MyList<Integer> list = new MyList<>();
+        list.pushBack(8);
+        list.pushBack(5);
+        list.pushBack(18);
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> list.delete(5));
+        assertNotNull(throwable.getMessage());
+    }
+
+    @Test
+    public void deleteFromIntegerListFromMiddle() {
         MyList<Integer> list = new MyList<>();
         list.pushBack(8);
         list.pushBack(5);
@@ -152,7 +182,7 @@ public class MyListTest {
     }
 
     @Test
-    public void deleteInStringListFromStart() {
+    public void deleteFromStringListFromStart() {
         MyList<String> list = new MyList<>();
         list.pushBack("one");
         list.pushBack("two");
@@ -218,8 +248,8 @@ public class MyListTest {
         list.pushBack(75);
         list.pushBack(48953);
         var copyList = new ArrayList<Integer>();
-        for (Integer value : list) {
-            copyList.add(value);
+        while (list.hasNext()) {
+            copyList.add(list.next());
         }
         assertEquals(10, (int) copyList.get(0));
         assertEquals(75, (int) copyList.get(1));
@@ -233,11 +263,26 @@ public class MyListTest {
         list.pushBack("Masha");
         list.pushBack("Pasha");
         var copyList = new ArrayList<String>();
-        for (String value : list) {
-            copyList.add(value);
+        while (list.hasNext()) {
+            copyList.add(list.next());
         }
         assertEquals("Dasha", copyList.get(0));
         assertEquals("Masha", copyList.get(1));
         assertEquals("Pasha", copyList.get(2));
+    }
+
+    @Test
+    public void integerListBackIteration() {
+        MyList<Integer> list = new MyList<>();
+        list.pushBack(10);
+        list.pushBack(75);
+        list.pushBack(48953);
+        var copyList = new ArrayList<Integer>();
+        while (list.hasPrevious()) {
+            copyList.add(list.previous());
+        }
+        assertEquals(48953, (int) copyList.get(0));
+        assertEquals(75, (int) copyList.get(1));
+        assertEquals(10, (int) copyList.get(2));
     }
 }

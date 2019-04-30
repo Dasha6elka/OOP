@@ -7,39 +7,20 @@ import static org.junit.Assert.*;
 public class StringStackTest {
 
     @Test
-    public void copy() {
+    public void constructorMove() {
         StringStack stack = new StringStack();
         stack.push("A");
         stack.push("B");
         stack.push("C");
-        StringStack newStack = stack.copy(stack);
+        StringStack newStack = new StringStack(stack);
         assertEquals("A", newStack.first.item);
         assertEquals("C", newStack.top.item);
     }
 
     @Test
-    public void copyEmptyStack() {
+    public void constructorMoveEmptyStack() {
         StringStack stack = new StringStack();
-        StringStack newStack = stack.copy(stack);
-        assertNull(newStack.first);
-        assertNull(newStack.top);
-    }
-
-    @Test
-    public void move() {
-        StringStack stack = new StringStack();
-        stack.push("A");
-        stack.push("B");
-        stack.push("C");
-        StringStack newStack = stack.move(stack);
-        assertEquals("A", newStack.first.item);
-        assertEquals("C", newStack.top.item);
-    }
-
-    @Test
-    public void moveEmptyStack() {
-        StringStack stack = new StringStack();
-        StringStack newStack = stack.move(stack);
+        StringStack newStack = new StringStack(stack);
         assertNull(newStack.first);
         assertNull(newStack.top);
     }

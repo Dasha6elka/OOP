@@ -1,17 +1,19 @@
 package lab7.genericClass;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ListIterator;
 
-import java.util.Iterator;
-
-class MyList<T> implements Iterable<T>{
+class MyList<T> implements ListIterator<T> {
     Node first;
     Node last;
+    private Node forwardCurrent;
+    private Node backCurrent;
     int size;
 
     MyList() {
         first = null;
         last = null;
+        Node forwardCurrent = null;
+        Node backCurrent = null;
         size = 0;
     }
 
@@ -24,30 +26,44 @@ class MyList<T> implements Iterable<T>{
             pushBack(temp.value);
             temp = temp.next;
         }
+        forwardCurrent = first;
+        backCurrent = last;
     }
 
     void pushForward(T value) {
-        final Node currFirst = first;
-        final Node newNode = new Node(currFirst, null, value);
-        first = newNode;
-        if (currFirst == null) {
-            last = newNode;
-        } else {
-            currFirst.prev = newNode;
+        try {
+            final Node currFirst = first;
+            final Node newNode = new Node(currFirst, null, value);
+            first = newNode;
+            if (currFirst == null) {
+                last = newNode;
+            } else {
+                currFirst.prev = newNode;
+            }
+            forwardCurrent = first;
+            backCurrent = last;
+            size++;
+        } catch (OutOfMemoryError e) {
+            System.out.println(e.getMessage());
         }
-        size++;
     }
 
     void pushBack(T value) {
-        final Node currLast = last;
-        final Node newNode = new Node(null, currLast, value);
-        last = newNode;
-        if (currLast == null) {
-            first = newNode;
-        } else {
-            currLast.next = newNode;
+        try {
+            final Node currLast = last;
+            final Node newNode = new Node(null, currLast, value);
+            last = newNode;
+            if (currLast == null) {
+                first = newNode;
+            } else {
+                currLast.next = newNode;
+            }
+            forwardCurrent = first;
+            backCurrent = last;
+            size++;
+        } catch (OutOfMemoryError e) {
+            System.out.println(e.getMessage());
         }
-        size++;
     }
 
     int getSize() {
@@ -55,42 +71,48 @@ class MyList<T> implements Iterable<T>{
     }
 
     void add(int index, T value) {
-        if (index > size) {
-            return;
+        try {
+            if (index > size) {
+                throw new IllegalArgumentException("Index is big");
+            }
+            int i = 0;
+            Node current = first;
+            while (i != index) {
+                current = current.next;
+                i++;
+            }
+            Node currPrev;
+            if (current == null) {
+                currPrev = last;
+            } else {
+                currPrev = current.prev;
+            }
+            Node newNode = new Node(current, currPrev, value);
+            if (currPrev == null) {
+                currPrev = newNode;
+                first = currPrev;
+                return;
+            } else {
+                currPrev.next = newNode;
+            }
+            if (current != null) {
+                current.prev = newNode;
+            } else {
+                last = newNode;
+            }
+            newNode.next = current;
+            newNode.prev = currPrev;
+            forwardCurrent = first;
+            backCurrent = last;
+            size++;
+        } catch (OutOfMemoryError e) {
+            System.out.println(e.getMessage());
         }
-        int i = 0;
-        Node current = first;
-        while (i != index) {
-            current = current.next;
-            i++;
-        }
-        Node currPrev;
-        if (current == null) {
-            currPrev = last;
-        } else {
-            currPrev = current.prev;
-        }
-        Node newNode = new Node(current, currPrev, value);
-        if (currPrev == null) {
-            currPrev = newNode;
-            first = currPrev;
-            return;
-        } else {
-            currPrev.next = newNode;
-        }
-        if (current != null) {
-            current.prev = newNode;
-        } else {
-            last = newNode;
-        }
-        newNode.next = current;
-        newNode.prev = currPrev;
-        size++;
     }
 
     void delete(int index) {
         if (index > size) {
-            return;
+            throw new IllegalArgumentException("Index is big");
         }
         int i = 0;
         Node deleted = first;
@@ -114,6 +136,8 @@ class MyList<T> implements Iterable<T>{
                 last = deleted.prev;
             }
         }
+        forwardCurrent = first;
+        backCurrent = last;
         size--;
     }
 
@@ -128,31 +152,50 @@ class MyList<T> implements Iterable<T>{
         }
     }
 
-    @NotNull
     @Override
-    public Iterator<T> iterator() {
-        return new MyListIterator(first);
+    public boolean hasNext() {
+        return forwardCurrent != null;
     }
 
-    class MyListIterator implements Iterator<T> {
+    @Override
+    public T next() {
+        Node node = forwardCurrent;
+        forwardCurrent = forwardCurrent.next;
+        return node.value;
+    }
 
-        private Node current;
+    @Override
+    public boolean hasPrevious() {
+        return backCurrent != null;
+    }
 
-        MyListIterator(Node current) {
-            this.current = current;
-        }
+    @Override
+    public T previous() {
+        Node node = backCurrent;
+        backCurrent = backCurrent.prev;
+        return node.value;
+    }
 
-        @Override
-        public boolean hasNext() {
-            return current != null;
-        }
+    @Override
+    public int nextIndex() {
+        return 0;
+    }
 
-        @Override
-        public T next() {
-            Node node = current;
-            current = current.next;
-            return node.value;
-        }
+    @Override
+    public int previousIndex() {
+        return 0;
+    }
+
+    @Override
+    public void remove() {
+    }
+
+    @Override
+    public void set(T t) {
+    }
+
+    @Override
+    public void add(T t) {
     }
 
     class Node {
