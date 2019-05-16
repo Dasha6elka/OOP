@@ -82,6 +82,7 @@ public class StringStackTest {
         stack.push("C");
         assertEquals("A", stack.first.item);
         assertEquals("C", stack.top.item);
+        assertEquals("B", stack.top.next.item);
     }
 
     @Test
