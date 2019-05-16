@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class StringStackTest {
 
     @Test
-    public void constructorMove() {
+    public void constructorCopy() {
         StringStack stack = new StringStack();
         stack.push("A");
         stack.push("B");
@@ -18,9 +18,28 @@ public class StringStackTest {
     }
 
     @Test
-    public void constructorMoveEmptyStack() {
+    public void constructorCopyEmptyStack() {
         StringStack stack = new StringStack();
         StringStack newStack = new StringStack(stack);
+        assertNull(newStack.first);
+        assertNull(newStack.top);
+    }
+
+    @Test
+    public void assigmentMove() {
+        StringStack stack = new StringStack();
+        stack.push("A");
+        stack.push("B");
+        stack.push("C");
+        StringStack newStack = stack;
+        assertEquals("A", newStack.first.item);
+        assertEquals("C", newStack.top.item);
+    }
+
+    @Test
+    public void assigmentMoveEmptyStack() {
+        StringStack stack = new StringStack();
+        StringStack newStack = stack;
         assertNull(newStack.first);
         assertNull(newStack.top);
     }
@@ -42,27 +61,6 @@ public class StringStackTest {
         StringStack stack = new StringStack();
         StringStack newStack = new StringStack();
         newStack.assignmentCopy(stack);
-        assertNull(newStack.first);
-        assertNull(newStack.top);
-    }
-
-    @Test
-    public void assignmentMove() {
-        StringStack stack = new StringStack();
-        stack.push("A");
-        stack.push("B");
-        stack.push("C");
-        StringStack newStack = new StringStack();
-        newStack.assignmentMove(stack);
-        assertEquals("A", newStack.first.item);
-        assertEquals("C", newStack.top.item);
-    }
-
-    @Test
-    public void assignmentMoveEmptyStack() {
-        StringStack stack = new StringStack();
-        StringStack newStack = new StringStack();
-        newStack.assignmentMove(stack);
         assertNull(newStack.first);
         assertNull(newStack.top);
     }

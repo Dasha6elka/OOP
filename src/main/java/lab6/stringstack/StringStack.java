@@ -12,34 +12,59 @@ class StringStack {
     }
 
     StringStack(StringStack stack) {
-        size = stack.size;
-        this.top = stack.top;
-        Node node = top;
-        while (node != stack.first) {
-            node = node.next;
-        }
-        first = stack.first;
-    }
-
-    void assignmentMove(StringStack stack) {
-        if (this == stack) {
+        try {
+            if (this == stack) {
             return;
+            }
+            if (stack.size == 0) {
+                size = 0;
+                top = null;
+                first = null;
+                return;
+            }
+            Node node = new Node(stack.top.item, stack.top.next);
+            Node newNode = new Node(node.next.item, node.next);
+            top = node;
+            top.next = newNode;
+            int length = stack.size;
+            while (length > 0) {
+                node = newNode;
+                newNode = new Node(node.next.item, node.next);
+                length--;
+            }
+            size = stack.size;
+            first = new Node(stack.first.item, stack.first.next);
+        } catch (OutOfMemoryError e) {
+            System.out.println(e.getMessage());
         }
-        this.top = stack.top;
-        Node node = top;
-        while (node != stack.first) {
-            node = node.next;
-        }
-        first = stack.first;
     }
 
     void assignmentCopy(StringStack stack) {
-        if (this == stack) {
-            return;
+        try {
+            if (stack.size == 0) {
+                size = 0;
+                top = null;
+                first = null;
+                return;
+            }
+            if (this == stack) {
+                return;
+            }
+            size = stack.size;
+            int length = stack.size;
+            Node node = new Node(stack.top.item, stack.top.next);
+            top = node;
+            Node newNode = new Node(node.next.item, node.next);
+            top.next = newNode;
+            while (length > 0) {
+                node = newNode;
+                newNode = new Node(node.next.item, node.next);
+                length--;
+            }
+            first = new Node(stack.first.item, stack.first.next);
+        } catch (OutOfMemoryError e) {
+            System.out.println(e.getMessage());
         }
-        first = stack.first;
-        size = stack.size;
-        top = stack.top;
     }
 
     int getSize() {
